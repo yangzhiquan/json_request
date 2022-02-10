@@ -1,0 +1,28 @@
+{
+  "base_url": "https://docs.qq.com/",
+
+  "paths": [
+    {
+      "_请求函数名": {
+        "path": "CGI",
+        "method": "请求方式",
+        "req": {"请求参数名": "value随便填，类型对上就行"},
+        "rsp": {"回包数据": "如果只填result部分，需要实现传picker参数自行解包",
+        "rspName": "回包数据模型对应的类名，不指定默认为 {请求函数名+Rsp}"
+        }
+      }
+    },
+    {
+      "getFileDesc": {
+        "path": "drive/file/desc",
+        "method": "POST",
+        "req": {"file_id": "file_id"},
+        "rsp":{"accessNick":"杨杨杨","docType":1,"size":0,"stats":"@FileDescStats","customListTypeTest":"@[FileDescStats]"}
+      }
+    }
+
+  ],
+  "models": {
+    "FileDescStats": {"folder":{"fileId":"GWbCDxlLphBs","fileNum":"1","subfolderNum":"1","size":"0"},"pdf":{"fileId":"eVEAKzXipuni","pageNum":"1","updateTime":"0"},"sheet":{"fileId":"eBSAyuUciHkm","sheetNum":"1"},"slide":{"fileId":"","pageNum":"1","updateTime":"1639655635148"},"word":{"fileId":"","updateTime":"0","wordNum":"167"}}
+  }
+}

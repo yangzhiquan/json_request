@@ -1,0 +1,15 @@
+{
+  "base_url": "https://httpbin.org/",
+
+  "paths": [
+    {
+      "postTest": {
+        "path": "/post",
+        "method": "POST",
+        "req": {"foo": "bar"},
+        "rsp": {"args":{},"data":"{\"foo\":\"bar\"}","files":{},"form":{},"headers":{"Accept-Encoding":"gzip","Content-Length":"13","Content-Type":"application/json; charset=utf-8","Host":"httpbin.org","User-Agent":"Dart/2.13 (dart:io)","X-Amzn-Trace-Id":"Root=1-61b2529d-6df1831d424afe2646bed6a6"},"json":{"foo":"bar"},"origin":"120.229.54.149","url":"https://httpbin.org/post"}
+      }
+    }
+  ]
+
+}
