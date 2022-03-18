@@ -57,7 +57,12 @@ class RequestGenerator {
       // 3. 解析配置文件, 填充import 跟 类代码 (每份配置对应一个域名下的所有cgi)
       configs.forEach((element) {
         final result = cdoeBag.parseConfigFile(element);
-        if (result) {
+        if (result.isNotEmpty) {
+          final exportFileName = 'export_' + cdoeBag.iVarName;
+          final path = cdoeBag.targetFilePath(exportFileName);
+          CodeBag.saveCodeToFile(path, result);
+          cdoeBag.imports.add('import "$exportFileName.dart"');
+
           final instanceCode =
               'final ${cdoeBag.iVarName} = ${cdoeBag.className}();';
           cdoeBag.wrapperCode.write(instanceCode);

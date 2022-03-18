@@ -42,10 +42,10 @@ class CodeBag {
   CodeBag(this.distDir, this.publicFileName);
 
   // 解析配置文件
-  bool parseConfigFile(FileSystemEntity fileEty) {
+  String parseConfigFile(FileSystemEntity fileEty) {
     final filePath = fileEty.path;
     if (!FileSystemEntity.isFileSync(filePath)) {
-      return false;
+      return '';
     }
 
     final file = File(filePath);
@@ -56,7 +56,7 @@ class CodeBag {
     if (fileType.toLowerCase() != "json" ||
         fileName.startsWith("_") ||
         fileName.isEmpty) {
-      return false;
+      return '';
     }
 
     // 大小写文件名.
@@ -89,24 +89,19 @@ class CodeBag {
     source.writeln('class $_className with $JsonRequestDataName {');
     source.writeln('String get baseURL => "$baseURL";');
 
+    String exports = '';
     // 遍历path生成请求函数（添加到source参数） + req/rsp model类文件(添加到export > imports)
     pathInfo.forEach((element) {
       // 生成并收集所有生成的类文件路径 生成export文件
-      String exports = _parsePathInfo(element, source, fileName);
-      if (exports.isNotEmpty) {
-        final exportFileName = 'export_' + fileName;
-        final path = targetFilePath(exportFileName);
-        saveCodeToFile(path, exports);
-
-        imports.add('import "$exportFileName.dart"');
-      }
+      final result = _parsePathInfo(element, source, fileName);
+      exports += result;
     });
     source.write('}');
 
     code.writeln(source.toString());
     this.iVarName = fileName;
     this.className = _className;
-    return true;
+    return exports;
   }
 
   // 解析单个cig，生成对于的req跟rsp类文件; 返回export信息
@@ -203,7 +198,7 @@ class CodeBag {
     // 类代码内容
     final code = StringBuffer();
     // imprt头文件，set去重
-    final imports = Set<String>();
+    final _imports = Set<String>();
 
     json.forEach((key, value) {
       key = key.trim();
@@ -221,7 +216,7 @@ class CodeBag {
       if (!unsound_null_safety) {
         code.write('late ');
       }
-      code.write(_getDataType(value, imports, className));
+      code.write(_getDataType(value, _imports, className));
       code.write(" ");
       code.write(key);
       code.writeln(";");
@@ -229,7 +224,7 @@ class CodeBag {
 
     // 添加头文件引用.
 
-    var importContent = imports.isEmpty ? "" : imports.join(";") + ";";
+    var importContent = _imports.isEmpty ? "" : _imports.join(";") + ";";
 
     var distCode = '''
       $importContent
