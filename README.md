@@ -29,8 +29,8 @@
 
 ```yaml
 dev_dependencies: 
-    json_serializable: ^5.0.0
-
+    json_serializable: ^6.1.5
+    
     json_request:
     git:
       url: https://github.com/yangzhiquan/json_request.git
